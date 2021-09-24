@@ -42,3 +42,7 @@ with plain output	node access_log /var/log/apache2/access_log -t text
 
 - with json output (custom path)
 ![images](/screenshoot/6.png?raw=true)
+
+## Notes
+- am set default path for writting file on Line 70 [https://github.com/cdw1p/Assessment-MyTens/blob/master/access_log.js#L70]
+- i just focused conversion only for apache access log, because different log using different format
