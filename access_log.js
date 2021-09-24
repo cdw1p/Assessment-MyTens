@@ -20,10 +20,13 @@ async function readFile(filePath) {
 // Write File
 async function writeFile(filePath, extension, data) {
   try {
+    const fileName = filePath.split('/').pop()
     const dataFormat = extension === 'txt' ? data : JSON.stringify(data, null, 4)
+    const fileOutput = fileName.match(/\./g) ? filePath : `${filePath}/log.${extension}`
+    await fs.writeFileSync(fileOutput, dataFormat)
     return {
       success: true,
-      data: (await fs.writeFileSync(`${filePath}/log.${extension}`, dataFormat))
+      data: fileOutput
     }
   } catch (err) {
     return {
@@ -79,8 +82,7 @@ async function helpCommand() {
           }
           const resWriteFile = await writeFile(outputFiles, convertionExt, resultData)
           if (resWriteFile.success) {
-            const outputPath = outputFiles ? `${outputFiles}/log.${convertionExt}` : outputFiles
-            console.log(`Yeaay!! log already writing at "${outputPath}" `)
+            console.log(`Yeaay!! log already writing at "${resWriteFile.data}" `)
           } else {
             throw new Error(resWriteFile.message)
           }
